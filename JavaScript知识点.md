@@ -1,3 +1,34 @@
+# 解释顺序
+
+HTML 元素是按其在页面中出现的次序调用的，如果 JavaScript 操作 [文档对象模型](https://developer.mozilla.org/zh-CN/docs/Web/API/Document_Object_Model) DOM 前 HTML DOM 未加载完，将出现错误。
+
+
+
+## 行内操作 DOM
+
+如果在 HTML 头部加载或行内 JavaScript 代码，需用 DOMContentLoaded 等待 DOM 加载完：
+
+```javascript
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    var internalJS = document.querySelectorAll('button');
+    console.log(internalJS); // 如果不使用 DOMContentLoaded 事件。此处将无法获取到DOM元素，因为JS代码在头部尚未完全加载 HTML DOM 前进行了操作。
+});
+</script>
+```
+
+## 外部加载操作 DOM
+
+使用 async 属性异步加载或  defer 属性延迟加载（延迟到文档完全被解析和显示后再执行），才可以操作 DOM。注意：这两个属性只对外部脚本有效。
+
+```javascript
+<script src="js/enqoo.js" async ></script>
+```
+
+
+
+还可以使用 DOMContentLoaded 事件包含要操作 DOM 的脚本。以及外部脚步放在 HTML 底部加载操作 DOM。
+
 # 变量
 
 变量可以保存任何值，以及对象属性，对象方法
@@ -307,7 +338,7 @@ Functions 是一种封装你想重复使用的功能的方法，这样你就可�
 ```javascript
 //声明一个函数
 function sum(num1, num2){
-	return num1 + num2;
+    return num1 + num2;
 }
 sum(1, 2); // 放在语句前后都可以，因为函数声明进行了提升
 
@@ -391,8 +422,6 @@ function loop(x) {
 }
 loop(0);
 ```
-
-
 
 ## 立即执行函数
 
@@ -1063,7 +1092,7 @@ DOM事件流(DOM2级事件规定): 首先是事件捕获阶段、然后是处于
 </form>
 ```
 
-## 事件处理程序的方式 
+## 事件处理程序的方式
 
 ### 一、HTML事件处理程序
 
@@ -1510,7 +1539,7 @@ console.log(colors); // ["green", "red", "purple", "orange", "blue"]
 console.log(removed); //["yellow"]
 ```
 
-## 位置方法	
+## 位置方法
 
 ```javascript
 //indexOf()同字符串位置方法,参数一为查找的项的位置, 参数二可选的查找起点位置。没有找到返回-1
@@ -1577,8 +1606,6 @@ var sum = values.reduceRight(function (prev, cur, index, array) {
 });
 console.log(sum); // 15     
 ```
-
-
 
 # 对象
 
@@ -1649,7 +1676,7 @@ var myObject = {
    },
 //对象方法。属性赋予函数即方法
   sayName: function(){
-  	alert(this.name); // 被解析成myObject.name
+      alert(this.name); // 被解析成myObject.name
   }
 }; //相当语句，末尾加分号;
 
@@ -1712,7 +1739,7 @@ myObject.year = 2011;
 
 // 对象方法
 myObject.sayName =  function(){
-	alert(this.name); // 被解析成myObject.name
+    alert(this.name); // 被解析成myObject.name
 };
 ```
 
@@ -1958,7 +1985,7 @@ console.log(isObject instanceof Object); // true
 ## 总结
 
 1. 用大写开头如Array类型、Object类型、Window类型、Document类型...都属于构造函数，使用constructor属性来检测都为Function构造函数；使用该类型实例化（如window检测Window类型）检测构造函数原型。
-
+   
    可通过isPrototypeOf()方法 或ECMAScript5的Object.getPrototypeOf()方法来确定实例与原型对象的关系:
 
 ```javascript
@@ -1970,11 +1997,11 @@ console.log(isObject instanceof Object); // true
 
     // window实例是否是Window构造函数类型
     console.log(window instanceof Window); // true
-    
+
     // 虽然在实现中无法访问到 [[Prototype]] ，但可以通过isPrototypeOf()方法来确定对象直接是否存在这种关系。
     // window实例是不是Window类型的原型对象
     console.log(Window.prototype.isPrototypeOf(window)); // true
-    
+
     //Object.getPrototypeOf() 支持IE9、FF3.5+、Safari5+、Opera12+、Chrome
     console.log(Object.getPrototypeOf(window)); // 返回Window构造函数
     console.log(Object.getPrototypeOf(window) == Window.prototype); //true
@@ -2066,8 +2093,6 @@ function F2(a, b) {
     console.log(foj2.sum()); // 9
 ```
 
-
-
 ## 单体内置对象
 
 Global对象
@@ -2119,18 +2144,18 @@ eval("var msg = 'hello world'; ");
 一部分属性上述已介绍过，如特殊的值undefined、NaN、Infinity都是Global对象的属性。所有原生引用类型的构造函数，像Object和Function，也都是Global对象的属性。
 
 ```
-    		构造函数Object
-			Function	构造函数Function
-			Date		构造函数Date
-			Array		构造函数Array
-			RegExp		构造函数RegExp
-			Error		构造函数Error
-			String		构造函数String
-			Boolean		构造函数Boolean
-			Number		构造函数Number
-			...
-			undefined	特殊值undefined
-			NaN			特殊值NaN
+            构造函数Object
+            Function    构造函数Function
+            Date        构造函数Date
+            Array        构造函数Array
+            RegExp        构造函数RegExp
+            Error        构造函数Error
+            String        构造函数String
+            Boolean        构造函数Boolean
+            Number        构造函数Number
+            ...
+            undefined    特殊值undefined
+            NaN            特殊值NaN
 ```
 
 # DOM
@@ -2138,7 +2163,6 @@ eval("var msg = 'hello world'; ");
 JavaScript由三个部分组成：
 
 - **ECMAScript：**语言核心功能。规定了语言的语法、类型、语句、关键字、保留字、操作符、对象等组成部分。
-
 
 - **DOM（文档对象模型）**：提供访问和操作网页内容的方法和接口。
 - **BOM（浏览器对象模型）**：提供与浏览器交互的方法和接口
@@ -2243,12 +2267,12 @@ var firstChild = someNode.childNodes[0];
 var secondChild = someNode.childNodes.item(1);
 var count = someNode.childNodes.length;
 ```
+
 - 父节点和子节点存在特殊关系，父节点的firstChild 和lastChild 分别指向childNodes列表的第一个和最后一个。
 
 - 同胞节点可以使用nextSibling 或 previousSibling 属性访问。
 
 - 不是所有节点都有子节点。
-
 
 #### 操作节点
 
@@ -2261,7 +2285,6 @@ var count = someNode.childNodes.length;
 - 删除节点：removeChild();
 
 - 复制节点：cloneNode();
-
 
 ```javascript
 // appendChild(), 向childNodes 列表末尾增加一个节点
@@ -2297,6 +2320,7 @@ console.log(deepList.childNodes.length);
 var shallowList = ul.cloneNode(false);
 someNode.appendChild(shallowList);
 ```
+
 ### Document 类型
 
 JavaScript通过Document类型表示文档。document对象是HTMLDocument（继承自Document类型）的一个实例，表示整个页面。而且，document对象是window对象的一个属性，因此可将其作为全局对象来访问，可通过 window.document 属性对其进行访问。有如下特征：
@@ -2484,8 +2508,6 @@ for (var i = 0, len = div.classList.length; i < len; i++){
     div.className = classNames.join(" ");
 ```
 
-
-
 ###### 通过集合查找元素
 
 - document.anchors 带name特性的<a>元素集合
@@ -2528,12 +2550,12 @@ while (child != element.firstElementChild){
 
 #### Dom2级遍历
 
-````javascript
+```javascript
 // 检测浏览器支持情况
 var supportTraversals = document.implementation.hasFeature("Traversal", "2.0");
 var supportsNodeIterator = (typeof document.createNodeIterator == "function");
 var supportsNodeTreeWalker = (typeof document.createTreeWalker == "function");
-````
+```
 
 ##### NodeInterator
 
@@ -2578,9 +2600,9 @@ while (node != null){
 var div = document.getElementById("div1");
 
 var filter = function (node) {
-  
+
   // 可通过createNodeIterator的filter参数指定自定义的NodeFilter对象或函数，每个NodeFilter对象只有一个方法accept-Node(),应该访问给定节点，该方法返回NodeFilter.FILTER_ACCEPT;反之不该访问为NodeFilter.FILTER_SKIP
-  
+
   return node.tagName.toLowerCase() == "li" ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP;
 };
 
@@ -2592,7 +2614,6 @@ while (node != null){
   console.log(node.tagName); // 输入 LI LI LI
   node = iterator.nextNode();
 }
-
 ```
 
 ##### TreeWalker
@@ -2749,7 +2770,7 @@ console.log(div.className); // class 为保留字
 console.log(div.lang); // en
 console.log(div.title); // hello
 console.log(div.dir); //ltr
-        
+
 // 也可以修改对应属性,如:
 div.id = "youDiv";
 div.title = "修改这个标题, 鼠标放上去看效果";
@@ -2836,7 +2857,7 @@ for(var i = 0, len = myList.childNodes.length; i < len; i++){
         // 执行代码
        }
 }
-        
+
 // 取得<ul> 后代元素
 var items = myList.getElementsByTagName("li");
 console.log(items); // [li, li, li]
@@ -2927,7 +2948,7 @@ Comment 类型与Text类型继承相同的基类, 拥有除splitText()外的所�
 var div = document.getElementById("myDiv");
 var comment = div.firstChild;                                                                                         
 console.log(comment.data); //注释节点 
-                                                                                                                      
+
 // 创建注释节点                                                                                                             
 var comment = document.createComment("创建注释"); 
 ```
@@ -3045,7 +3066,6 @@ console.log(content.outerHTML); // <div id="content">...<div>
 //写模式, 创建新的DOM子树,然后替换调用元素
 
 // content.outerHTML = "<p>使用outerHTML设置值</p>";
-
 ```
 
 ##### insertAdjacentHTML()方法
@@ -3163,7 +3183,7 @@ myDiv.style.cssText = "background-color:green; height:50px; width:50px;";
 // length: 查css属性的数量
 var prop, value, i, len;
 for (i = 0, len = myDiv.style.length; i < len; i++){
-  
+
   // 循环每个样式属性
   console.log(myDiv.style[i]); // 在使用length 和 item()时，style对象相当于一个集合，可以使用方括号语法代替item()取得给定位置的CSS属性
   // 或 myDiv.style.item(i);
@@ -3402,8 +3422,6 @@ offsetLeft 和 offsetTop 属性与包含元素有关，包含元素的引用保�
 
   ![client dimension](img/client dimension.png)
 
-
-
 ```javascript
     //   客户区大小
 
@@ -3436,11 +3454,14 @@ clientWidth和clientHeight都是只读属性，不能对它们赋值。
 滚动大小（scroll deimension）：包含滚动内容的元素大小。有些元素（如<html>元素），即使没有执行任何代码也能自动增加滚动条；另外一些元素，则需要css的overflow来实现。
 
 - scrollHeight：在没有滚动条的情况下，元素内容的总高度。
-- scrollWidth：在没有滚动条的情况下，元素内容的总宽度。
-- scrollLeft：被隐藏在内容区域左侧的像素数。设置这个值可以改变元素的滚动位置。
-- scrollTop：被隐藏在内容区域上方的像素数。设置这个值可以改变元素的滚动位置。
 
- ![scroll deimension](img/scroll deimension.png)
+- scrollWidth：在没有滚动条的情况下，元素内容的总宽度。
+
+- scrollLeft：被隐藏在内容区域左侧的像素数。设置这个值可以改变元素的滚动位置。
+
+- scrollTop：被隐藏在内容区域上方的像素数。设置这个值可以改变元素的滚动位置。
+  
+  ![scroll deimension](img/scroll deimension.png)
 
 scrollHeight 和 scrollWidth 主要用于确定元素内容的实际大小。例如：<html>元素在Web浏览器的视口中的元素（IE6下混杂模式是<body>元素）。因此，带有垂直滚动条的页面高度就是document.documentElement.scrollHeight 。
 
@@ -3562,7 +3583,7 @@ window.resizeBy(100, 50);
 
 ### 窗口导航打开
 
-````javascript
+```javascript
 // window.open("要加载的URL", "窗口目标, 没有的话会根据第三个参数创建一个新窗口或标签页", "一个特性字符串", "新页面是否取代浏览器历史记录中当前加载页面的布尔值");
 
 // 可以使用window.open返回指向新窗口的引用
@@ -3575,7 +3596,7 @@ newWindow.moveTo(100,100);
 // 关闭窗口
 newWindow.close();
 // Chrome 下测试成功
-````
+```
 
 ### 超时调用和间歇调用
 
@@ -3601,8 +3622,6 @@ var intervalID = setInterval(function () {
 // 取消间隙
 clearInterval(intervalID);
 ```
-
-
 
 # 表单
 
@@ -3633,8 +3652,8 @@ HTML中，表单由<form>元素表示；JavaScript中，表单是HTMLFormElement
     <input type="radio" name="color" value="Red">Red
     <input type="radio" name="color" value="green">green
     <input type="radio" name="color" value="bule">blue
-  
-  	<textarea rows="5" cols="25" name="comment">初始值</textarea>
+
+      <textarea rows="5" cols="25" name="comment">初始值</textarea>
 
     <button type="submit" name="submit-btn">提交表单</button>
     <input type="reset" value="重置表单">
@@ -3656,10 +3675,10 @@ var form = document.forms[0];
 ```html
 <!--通用提交按钮-->
 <input type="submit" value="提交表单">
-    
+
 <!--自定义按钮提交-->
 <button type="submit">提交表单</button>
-    
+
 <!--图像按钮-->
 <input type="image" src="btn.png">
 ```
@@ -3669,7 +3688,7 @@ var form = document.forms[0];
 ```javascript
 // 在发送服务器之前阻止submit事件
 EventUtil.addHandler(form, "submit", function (event) {
-	//取得事件对象
+    //取得事件对象
     event = EventUtil.getEvent(event);
 
     // 阻止默认事件
@@ -3707,7 +3726,7 @@ EventUtil.addHandler(form, "reset", function (event) {
 
 与submit()方法不同, 调用reset()方法像单击按钮触发reset事件
 
-``` form.reset();
+```form.reset();
 form.reset();
 ```
 
@@ -3725,6 +3744,7 @@ var field2 = form.elements["textbox2"];
 // 字段数量,包括提交按钮
 var fieldCount = form.elements.length;
 ```
+
 如果name相同, 访问elements["name属性"]时, 返回NodeList集合
 
 ```javascript
@@ -4013,7 +4033,4 @@ https://developer.mozilla.org/zh-CN/docs/Web/API/Selection
 
 PS: Range类型可以用Selection对象的getRangeAt方法取得，可以用 Document 对象的 createRange方法创建：https://developer.mozilla.org/zh-CN/docs/Web/API/Range
 
-
-
 ### 操作富文本
-
