@@ -1,6 +1,6 @@
 # 解释顺序
 
-HTML 元素是按其在页面中出现的次序调用的，如果 JavaScript 操作 [文档对象模型](https://developer.mozilla.org/zh-CN/docs/Web/API/Document_Object_Model) DOM 前 HTML DOM 未加载完，将出现错误。
+HTML 元素是按其在页面中出现的次序调用的，即先加载头部的 JavaScript 的脚本，再加载HTML 内部的脚步。如果 JavaScript 操作 [文档对象模型](https://developer.mozilla.org/zh-CN/docs/Web/API/Document_Object_Model) DOM 前 HTML DOM 未加载完，将出现错误。
 
 
 
@@ -28,6 +28,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 还可以使用 DOMContentLoaded 事件包含要操作 DOM 的脚本。以及外部脚步放在 HTML 底部加载操作 DOM。
+
+参照：[What is JavaScript? - Learn web development | MDN](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/First_steps/What_is_JavaScript#how_do_you_add_javascript_to_your_page)
 
 # 变量
 
