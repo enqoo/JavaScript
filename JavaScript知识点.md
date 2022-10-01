@@ -2,8 +2,6 @@
 
 HTML 元素是按其在页面中出现的次序调用的，即先加载头部的 JavaScript 的脚本，再加载HTML 内部的脚步。如果 JavaScript 操作 [文档对象模型](https://developer.mozilla.org/zh-CN/docs/Web/API/Document_Object_Model) DOM 前 HTML DOM 未加载完，将出现错误。
 
-
-
 ## 行内操作 DOM
 
 如果在 HTML 头部加载或行内 JavaScript 代码，需用 DOMContentLoaded 等待 DOM 加载完：
@@ -25,9 +23,10 @@ document.addEventListener("DOMContentLoaded", function () {
 <script src="js/enqoo.js" async ></script>
 ```
 
+还可以使用 DOMContentLoaded 事件包含要操作 DOM 的脚本。以及外部脚本放在 HTML 底部加载操作 DOM。
 
-
-还可以使用 DOMContentLoaded 事件包含要操作 DOM 的脚本。以及外部脚步放在 HTML 底部加载操作 DOM。
+- 如果脚本无需等待页面解析，且无依赖独立运行，那么应使用 `async`。
+- 如果脚本需要等待页面解析，且依赖于其它脚本，调用这些脚本时应使用 `defer`，将关联的脚本按所需顺序置于 HTML 中。
 
 参照：[What is JavaScript? - Learn web development | MDN](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/First_steps/What_is_JavaScript#how_do_you_add_javascript_to_your_page)
 
@@ -428,6 +427,46 @@ loop(0);
 ## 立即执行函数
 
 当函数只使用一次时，通常使用IIFE (Immediately Invokable Function Expressions)，函数声明后立即调用的函数表达式。
+
+**IIFE 第一种** 
+
+即是传统的 IIFE。由于函数被包含在一对( )括号内部，因此成为了一个表达式，通过在末尾加上另外一个( ) 可以立即执行这个函数：
+
+```javascript
+(function foo(){ 
+
+})()
+```
+
+第一个( ) 将函数变成表达式，第二个( )执行了这个函数。
+
+**IIFE 第二种**
+
+“第二种形式中用来调用的 () 括号被移进了用来包装的( )：
+
+```javascript
+(function foo(){ 
+
+}())
+```
+
+IIFE的另一个非常普遍的进阶用法是把它们当作函数调用并传递参数进去。
+
+```javascript
+var a = 2;
+
+(function IIFE( global ) {
+
+    var a = 3;
+    console.log( a ); // 3
+    console.log( global.a ); // 2
+
+})( window );
+
+console.log( a ); // 2”
+```
+
+**IIFE 推理方式**
 
 ```javascript
 // IIFE 第一种形式，从函数声明推
@@ -2167,6 +2206,7 @@ JavaScript由三个部分组成：
 - **ECMAScript：**语言核心功能。规定了语言的语法、类型、语句、关键字、保留字、操作符、对象等组成部分。
 
 - **DOM（文档对象模型）**：提供访问和操作网页内容的方法和接口。
+
 - **BOM（浏览器对象模型）**：提供与浏览器交互的方法和接口
 
 DOM是针对HTML和XML文档的一个API（应用程序编程接口）。DOM描述了一个层次化的节点树，允许开发人员增肌、移除、修改页面的某一部分。
